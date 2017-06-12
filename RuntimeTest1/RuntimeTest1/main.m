@@ -82,6 +82,23 @@ int main(int argc, const char * argv[]) {
         if (classMethod != NULL) {
             NSLog(@"class method : %s",method_getName(classMethod));
         }
+        
+        NSLog(@"MyClass is%@ responsd to selector: method3WithArg1:arg2:", class_respondsToSelector(cls, @selector(method3WithArg1:arg2:)) ? @"" : @" not");
+        
+        IMP imp = class_getMethodImplementation(cls, @selector(method1));
+        imp();
+        NSLog(@"==========================================================");
+        
+        //协议
+        Protocol *__unsafe_unretained *protocols = class_copyProtocolList(cls, &outCount);
+        Protocol *protocol;
+        for (int i = 0; i < outCount; i++) {
+            protocol = protocols[i];
+            NSLog(@"protocol name :%s",protocol_getName(protocol));
+        }
+        NSLog(@"MyClass is%@ responsed to protocol %s", class_conformsToProtocol(cls, protocol) ? @"" : @" not", protocol_getName(protocol));
+
+
     }
     return 0;
 }
