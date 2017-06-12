@@ -104,8 +104,16 @@ int class_getVersion(Class cls);
 //设置版本号
 void class_setVersion(Class cls,int version);
 ```
+##动态创建类
 ```
+//创建一个新类和元类
+Class objc_allocateClassPair(Class superclass,const char *name,size_t extraBytes);
+//销毁一个类及其关联的类
+void objc_disposeClassPair(Class cls);
+//在应用中注册由objc_allocateClassPair创建的类
+void objc_registerClassPair(Class cls);
 
+实例方法和实例变量应该添加到类自身上，而类方法应该添加到类的元类上。
 
 ```
 
