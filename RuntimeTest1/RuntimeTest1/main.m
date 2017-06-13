@@ -103,11 +103,35 @@ int main(int argc, const char * argv[]) {
 //        Class subCls = objc_allocateClassPair(MyClass.class, "MySubClass", 0);
 //        class_addMethod(subCls, @selector(submethod1), (IMP)imp_submethod1, "v@:");
 
-        NSLog(@"%@--%@",NSString.class,objc_getMetaClass(object_getClassName(NSString.class)));
+//        NSLog(@"%@--%@",NSString.class,objc_getMetaClass(object_getClassName(NSString.class)));
+        
+//        NSLog(@"%@",objc_getMetaClass(object_getClassName(@"dddd")));
+        
+//        int numClasses;
+//        Class *classes = NULL;
+//        numClasses = objc_getClassList(NULL, 0);
+//        if (numClasses > 0) {
+//            classes = malloc(sizeof(Class)*numClasses);
+//            numClasses = objc_getClassList(classes, numClasses);
+//            NSLog(@"number of classes: %d",numClasses);
+//            for (int i = 0; i < numClasses; i++) {
+//                Class cls = classes[i];
+//                NSLog(@"class name:%s",class_getName(cls));
+//            }
+//            free(classes);
+//        }
+        
+        NSString
+        
+        SEL selA = @selector(setString:);
+        SEL selB = sel_registerName("setString:");
+        SEL selC = sel_registerName("");
         
         
-
+        
+        
     }
+    
     return 0;
 }
 
