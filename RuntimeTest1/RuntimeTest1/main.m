@@ -10,6 +10,7 @@
 #import "Test.h"
 #import "MyClass.h"
 #import <objc/runtime.h>
+#import "MyObject.h"
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
@@ -121,14 +122,18 @@ int main(int argc, const char * argv[]) {
 //            free(classes);
 //        }
         
-        NSString
-        
-        SEL selA = @selector(setString:);
-        SEL selB = sel_registerName("setString:");
-        SEL selC = sel_registerName("");
         
         
+//        SEL selA = @selector(setString:);
+//        SEL selB = sel_registerName("setString:");
+//        SEL selC = sel_registerName("");
+//        
+//        NSLog(@"%s%s",@encode(int),@encode(NSString));
         
+        MyObject *obj = [[MyObject alloc]init];
+        [obj setDataWithDic: @{@"name2": @"张三", @"status2": @"end"}];
+        
+        NSLog(@"%@",obj);
         
     }
     
