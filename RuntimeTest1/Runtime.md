@@ -1,3 +1,5 @@
+###meta-class （元类）是一个类对象的类。
+
 当我们向一个对象发送消息时，runtime会在这个对象所属的这个类的方法列表中查找方法，而向一个类发送消息时，会在这个类的meta-class的方法列表中查找。
 
 meta-class很重要，是因为它存储着一个类的所有类方法，每个类都会有一个单独的meta-class，因为每个类的类方法基本不可能完全相同。
@@ -117,10 +119,60 @@ void objc_registerClassPair(Class cls);
 
 ```
 
+#Selector 	Method   	  IMP
+
+* Selector
+
+```
+typedef struct objc_selector *SEL 【虽然是objc_selector结构体指针，但实际上只是一个C字符串】
+SEL selA = @selector(setString:);
+SEL selB = sel_registerName("setString");
+
+const char * sel_getName(SEL sel){
+	return sel ? (const char*)sel : "<null selector>";
+}
+```
+
+* implementation（IMP):
+
+```
+typedef id(*IMP)(id,SEL,...)
+代表函数指针，函数执行的入口。 第一个参数指向self（它代表当前类实例的地址，如果是类则指向的是它的元类），作为消息的接受者；第二个参数代表方法的选择子；...代表可选参数。前面的id代表返回值。
+IMP imp = [self  methodForSelector:selector];
+
+- (IMP)methodForSelector:(SEL)aSelector;
+
++ (IMP)instanceMethodForSelector:(SEL)aSelector;
+
+```
+
+* Method
+
+```
+typedef struct objc_method *Method
+struct objc_method {
+	SEL method_name;
+	char *method_types;
+	IMP method_imp;
+}
+1, 方法名 method_name 类型为 SEL，前面提到过相同名字的方法即使在不同类中定义，它们的方法选择器也相同。
+2, 方法类型 method_types 是个 char 指针，其实存储着方法的参数类型和返回值类型，即是 Type Encoding 编码。
+3, method_imp 指向方法的实现，本质上是一个函数的指针，就是前面讲到的 Implementation。
 
 
+```
+**一个类（Class）持有一个分发表，在运行期分发消息，表中的每一个实体代表一个方法(Method)，它的名字叫做选择子（SEL），对应着一种方法实现(IMP)**
 
 
+```
+	id objc_msgSend(id theReceiver, SEL theSelector, ...)
+	
+ 这个函数发送消息给theReceiver，并将返回值返回。编译器其实就是将[aBird fly]转化成了对objc_msgSend的调用，从而实现消息机制的。objec_msgSend()函数将会使用theReceiver
+ 的isa指针来找到theReceiver的类空间结构并在类空间结构中查找theSelector所对应的方
+ 法。如果没有找到，那么将使用指向父类的指针找到父类空间结构进行theSelector的查找。如果
+ 仍然没有找到，就继续往父类的父类一直找，直到找到为止.
+```
+ 
 
 
 
